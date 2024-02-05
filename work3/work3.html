@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <title>Work 3</title>
+</head>
+
+<body>
+    <div id="app">
+        <v-app>
+            <v-main class="indigo">
+                <v-container>
+                    <v-card>
+                        <v-card-title class="indigo lighten-5 ">{{title}}</v-card-title>
+                        <v-card-text class="text-center">
+                            <template v-if="state == 0">
+                                <v-btn @click="suffer()" color="primary" class="mt-3">เริ่มเล่น</v-btn>
+                                <v-btn href="../index.html" class="mt-3 white--text" color="blue-grey">กลับหน้าหลัก</v-btn>
+                            </template>
+                            <template v-if="state == 1">
+                                <v-row>
+                                    <v-col cols="2" v-for="(c, i) of cards" :key="i" class="text-center mt-3">
+                                        <img v-if="c.s==0" src='../img/0.png' width="80" height="80"
+                                            @click="imgClick(c)">
+                                        <img v-if="c.s==1" :src="'../img/'+ c.t+ '.png'" width="80" height="80">
+
+                                    </v-col>
+                                </v-row>
+                                <v-btn @click="state = 0" color="error" class="white--text mt-5">เลิกเล่น</v-btn>
+                            </template>
+                            <template v-if="state == 2">
+                                <h1>คุณชนะแล้ว เก่งมาก</h1>
+                                <v-btn @click="state = 0" class="green mt-3 white--text">ตกลง</v-btn>
+                            </template>
+                        </v-card-text>
+                        <v-bottom-navigation class="indigo lighten-5" style="display: flex; align-items: center;">{{footer}}</v-bottom-navigation>
+                    </v-card>
+                </v-container>
+            </v-main>
+        </v-app>
+    </div>
+
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                title: "Work 3: เกมจับคู่ภาพ ด้วย VueJS & Vuetify",
+                footer: "ภูดิส แสนทิพย์ สาขาวิทยาการคอมพิวเตอร์",
+                state: 0,
+                cards: [{t:0, s:0}],
+                cards_opened: [],
+                cards_count: 0,
+            },
+            vuetify: new Vuetify(),
+            methods: {
+                suffer() {
+                    this.state = 1;
+                    this.cards = [];
+                    this.cards_opened = [];
+                    this.cards_count = 36;
+                    for (var i = 1; i <= 18; i++) {
+                        this.cards.push({ t: i, s: 0 });
+                        this.cards.push({ t: i, s: 0 });
+                    }
+                    // console.log(this.cards)
+                    for (var i = 0; i <= 100; i++) {
+                        var selectA = Math.round(Math.random() * 35);
+                        var selectB = Math.round(Math.random() * 35);
+                        var temp = this.cards[selectA];
+                        this.cards[selectA] = this.cards[selectB];
+                        this.cards[selectB] = temp;
+                    }
+                },
+                imgClick(c) {
+                    if (this.cards_opened.length < 2) {
+                        c.s = 1;
+                        this.cards_opened.push(c);
+                    }
+                    if (this.cards_opened.length == 2) {
+                        setTimeout(this.checkCard, 1000);
+                    }
+                },
+                checkCard() {
+                    var a = this.cards_opened[0];
+                    var b = this.cards_opened[1];
+                    this.cards_opened = [];
+                    if (a.t == b.t) {
+                        a.s = 2; 
+                        b.s = 2;
+                        this.cards_count -= 2;
+                    } else {
+                        a.s = 0;
+                        b.s = 0;
+                    }
+                    if (this.cards_count == 0) {
+                        this.state = 2;
+                    }
+                },
+            }
+        })
+    </script>
+</body>
+
+</html>
