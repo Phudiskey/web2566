@@ -1,0 +1,34 @@
+<html class="a-fullscreen">
+  <head>
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  </head>
+  <body>
+    <a-scene>
+      <!-- Text with 3D Geometry and White Color -->
+      <a-text value="Phudit Santhip 633020038-2" position="-0.5 1.8 -5" align="center" color="#fff" depth="1" scale="2 2 0.1"></a-text>
+
+      <!-- Box with Rotation Animation and Image Texture -->
+      <a-box position="-1 0.5 -3" 
+      rotation="0 45 0"
+      src="./img/neon.png"
+      animation="property: rotation; to: 0 405 0; loop: true; dur: 5000;">  
+      </a-box>
+
+      <!-- Image next to the Box with Rotation Animation -->
+      <a-image src="./img/val.png" position="0 4 -4" scale="2 2 0.1" animation="property: rotation; to: 0 360 0; loop: true; dur: 5000;"></a-image>
+
+      <a-box position="1 0.5 -3" 
+      rotation="0 45 0"
+      src="./img/neon.png"
+      animation="property: rotation; to: 0 405 0; loop: true; dur: 5000;">  
+      </a-box>
+
+      <!-- Sky with Image Texture -->
+      <a-sky
+        src="img/ห้องฉัน.jpeg"
+        color="#ECECEC"
+        segments-height="360"
+      ></a-sky>
+    </a-scene>
+  </body>
+</html>
